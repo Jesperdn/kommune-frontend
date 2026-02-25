@@ -1,10 +1,9 @@
 FROM node:20-alpine AS build
 WORKDIR /app
-ENV NODE_ENV=development
 COPY package*.json ./
-RUN npm ci
+RUN NODE_ENV=development npm ci
 COPY . .
-RUN npm run build
+RUN npx tsc -b && npx vite build
 
 FROM nginx:alpine
 COPY --from=build /app/dist /usr/share/nginx/html
