@@ -1,3 +1,15 @@
+export interface Customer {
+    id: number;
+    name: string;
+    createdAt: string;
+}
+
+export interface CustomerCostSummary {
+    customerId: number;
+    customerName: string;
+    totalCost: number;
+}
+
 export interface Project {
     id: number;
     name: string;

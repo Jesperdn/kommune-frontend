@@ -10,7 +10,7 @@ const App = () => {
                     Kommune
                 </Link>
             </header>
-            <main className="max-w-5xl mx-auto p-8">
+            <main className="max-w-7xl mx-auto p-8">
                 <Routes>
                     <Route path="/" element={<Projects />} />
                     <Route path="/projects/:id" element={<ProjectDetails />} />
