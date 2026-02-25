@@ -79,13 +79,15 @@ const ProjectDetails = () => {
                 &larr; Tilbake til oversikt
             </Link>
 
-            <div className="mt-4 mb-8 flex items-start justify-between">
+            <div className="mt-4 mb-8 flex flex-col gap-2">
+                <div className="flex justify-between items-center gap-4">
                 <h1 className="text-3xl font-bold">
                     {costs?.projectName ?? "Laster..."}
                 </h1>
                 <Button variant="outline" size="sm" asChild>
                     <Link to={`/projects/${id}/edit`}><Pencil className="size-4" /> Rediger</Link>
                 </Button>
+                </div>
                 {costs && (
                     <p className="text-lg text-muted-foreground mt-1">
                         Total: {formatCurrency(costs.totalCost)}
