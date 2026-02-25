@@ -73,30 +73,21 @@ const Projects = () => {
                     </Button>
                 </CardHeader>
                 <CardContent>
-                    <h2>Kunder tilordnet på prosjekt</h2>
                     <div className="divide-y">
-                        {customerCosts.map((customer) => (
-                            <div key={customer.customerId} className="flex justify-between items-center py-3">
-                                <p className="font-medium">{customer.customerName}</p>
-                                <p className="text-lg font-semibold">
-                                    {formatCurrency(customer.totalCost)}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
-                </CardContent>
-                <CardContent>
-                    <h2 className="mt-6">Alle kunder</h2>
-                    <div className="divide-y">
-                        {customers.map((it) => (
-                            <div key={it.id} className="flex justify-between items-center py-3">
-                                <p className="font-medium">{it.name}</p>
-                                <p className="text-sm text-muted-foreground">
-                                    {formatCurrency(
-                                        customerCosts.find((c) => c.customerId === it.id)?.totalCost || 0
-                                    )}
-                                </p>
-                            </div>
+                        {customers.map((customer) => (
+                            <Link
+                                key={customer.id}
+                                to={`/customers/${customer.id}/edit`}
+                                className="flex justify-between items-center py-3 hover:bg-muted -mx-2 px-2 rounded transition-colors group"
+                            >
+                                <p className="font-medium">{customer.name}</p>
+                                <div className="flex items-center gap-2">
+                                    <p className="text-lg font-semibold">
+                                        {formatCurrency(customerCosts.find((c) => c.customerId === customer.id)?.totalCost || 0)}
+                                    </p>
+                                    <ChevronRight className="size-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                                </div>
+                            </Link>
                         ))}
                     </div>
                 </CardContent>
