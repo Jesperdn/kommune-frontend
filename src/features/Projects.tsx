@@ -1,4 +1,3 @@
-import useSWR from "swr";
 import { Link } from "react-router";
 import { ChevronRight, Plus } from "lucide-react";
 import {
@@ -8,16 +7,16 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { fetcher, formatCurrency } from "@/lib/utils";
-import type {Customer, CustomerCostSummary} from "@/types/customer.ts";
-import type {Project} from "@/types/project.ts";
-import type {Expense} from "@/types/expense.ts";
+import { formatCurrency } from "@/lib/utils";
+import { useProjects } from "@/hooks/useProjects";
+import { useExpenses } from "@/hooks/useExpenses";
+import { useCustomers, useCustomerCosts } from "@/hooks/useCustomers";
 
 const Projects = () => {
-    const { data: projects = [] } = useSWR<Project[]>("/api/projects", fetcher);
-    const { data: expenses = [] } = useSWR<Expense[]>("/api/expenses", fetcher);
-    const { data: customerCosts = [] } = useSWR<CustomerCostSummary[]>("/api/costs/per-customer", fetcher);
-    const { data: customers = [] } = useSWR<Customer[]>(`/api/customers`, fetcher);
+    const { data: projects = [] } = useProjects();
+    const { data: expenses = [] } = useExpenses();
+    const { data: customerCosts = [] } = useCustomerCosts();
+    const { data: customers = [] } = useCustomers();
     const totalByProject = (projectId: number) =>
         expenses
             .filter((e) => e.projectId === projectId)

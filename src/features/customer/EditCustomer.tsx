@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import useSWR from "swr";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router";
 import {
     Card,
@@ -9,14 +8,12 @@ import {
 } from "@/components/ui/card.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { fetcher } from "@/lib/utils";
-import * as React from "react";
-import type {Customer} from "@/types/customer.ts";
+import { useCustomer } from "@/hooks/useCustomers";
 
 const EditCustomer = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { data: customer } = useSWR<Customer>(`/api/customers/${id}`, fetcher);
+    const { data: customer } = useCustomer(id!);
     const [name, setName] = useState("");
 
     useEffect(() => {

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import useSWR from "swr";
 import { useNavigate, useParams, Link } from "react-router";
 import {
     Card,
@@ -9,13 +8,12 @@ import {
 } from "@/components/ui/card.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import type { Project } from "@/types/project.ts";
-import { fetcher } from "@/lib/utils.ts";
+import { useProject } from "@/hooks/useProjects";
 
 const EditProject = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { data: project } = useSWR<Project>(`/api/projects/${id}`, fetcher);
+    const { data: project } = useProject(id!);
     const [name, setName] = useState("");
 
     useEffect(() => {

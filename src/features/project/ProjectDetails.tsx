@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useSWR, { mutate } from "swr";
+import { mutate } from "swr";
 import { useParams, Link } from "react-router";
 import {
     Card,
@@ -17,16 +17,16 @@ import {
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Pencil, X } from "lucide-react";
-import { fetcher, formatCurrency } from "@/lib/utils.ts";
-import type {ProjectCostSummary} from "@/types/project.ts";
-import type {Expense} from "@/types/expense.ts";
-import type {Customer} from "@/types/customer.ts";
+import { formatCurrency } from "@/lib/utils.ts";
+import { useProjectCosts } from "@/hooks/useProjectCosts";
+import { useProjectExpenses } from "@/hooks/useExpenses";
+import { useCustomers } from "@/hooks/useCustomers";
 
 const ProjectDetails = () => {
     const { id } = useParams();
-    const { data: costs } = useSWR<ProjectCostSummary>(`/api/projects/${id}/costs`, fetcher);
-    const { data: expenses = [] } = useSWR<Expense[]>(`/api/expenses?projectId=${id}`, fetcher);
-    const { data: customers = [] } = useSWR<Customer[]>("/api/customers", fetcher);
+    const { data: costs } = useProjectCosts(id!);
+    const { data: expenses = [] } = useProjectExpenses(id!);
+    const { data: customers = [] } = useCustomers();
     const [selectedCustomerId, setSelectedCustomerId] = useState<string>("");
     const [percentage, setPercentage] = useState<string>("100");
 
