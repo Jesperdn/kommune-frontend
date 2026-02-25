@@ -1,7 +1,8 @@
 import { Routes, Route, Link } from "react-router";
 import Projects from "@/features/Projects.tsx";
-import ProjectDetails from "@/features/ProjectDetails.tsx";
-import CreateProject from "@/features/CreateProject.tsx";
+import ProjectDetails from "@/features/project/ProjectDetails.tsx";
+import CreateProject from "@/features/project/CreateProject.tsx";
+import EditProject from "@/features/project/EditProject.tsx";
 import CreateCustomer from "@/features/customer/CreateCustomer.tsx";
 import EditCustomer from "@/features/customer/EditCustomer.tsx";
 
@@ -20,6 +21,7 @@ const App = () => {
                     <Route path="/customers/new" element={<CreateCustomer />} />
                     <Route path="/customers/:id/edit" element={<EditCustomer />} />
                     <Route path="/projects/:id" element={<ProjectDetails />} />
+                    <Route path="/projects/:id/edit" element={<EditProject />} />
                 </Routes>
             </main>
         </div>

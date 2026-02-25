@@ -6,19 +6,21 @@ import {
     CardContent,
     CardHeader,
     CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/card.tsx";
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { X } from "lucide-react";
-import type { ProjectCostSummary, Expense, Customer } from "@/types/expense.ts";
-import { fetcher, formatCurrency } from "@/lib/utils";
+} from "@/components/ui/select.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import { Input } from "@/components/ui/input.tsx";
+import { Pencil, X } from "lucide-react";
+import { fetcher, formatCurrency } from "@/lib/utils.ts";
+import type {ProjectCostSummary} from "@/types/project.ts";
+import type {Expense} from "@/types/expense.ts";
+import type {Customer} from "@/types/customer.ts";
 
 const ProjectDetails = () => {
     const { id } = useParams();
@@ -77,10 +79,13 @@ const ProjectDetails = () => {
                 &larr; Tilbake til oversikt
             </Link>
 
-            <div className="mt-4 mb-8">
+            <div className="mt-4 mb-8 flex items-start justify-between">
                 <h1 className="text-3xl font-bold">
                     {costs?.projectName ?? "Laster..."}
                 </h1>
+                <Button variant="outline" size="sm" asChild>
+                    <Link to={`/projects/${id}/edit`}><Pencil className="size-4" /> Rediger</Link>
+                </Button>
                 {costs && (
                     <p className="text-lg text-muted-foreground mt-1">
                         Total: {formatCurrency(costs.totalCost)}
