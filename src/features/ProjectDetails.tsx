@@ -15,6 +15,8 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { X } from "lucide-react";
 import type { ProjectCostSummary, Expense, Customer } from "@/types/api";
 import { fetcher, formatCurrency } from "@/lib/utils";
 
@@ -24,22 +26,49 @@ const ProjectDetails = () => {
     const { data: expenses = [] } = useSWR<Expense[]>(`/api/expenses?projectId=${id}`, fetcher);
     const { data: customers = [] } = useSWR<Customer[]>("/api/customers", fetcher);
     const [selectedCustomerId, setSelectedCustomerId] = useState<string>("");
+    const [percentage, setPercentage] = useState<string>("100");
 
     const assignedCustomerIds = new Set(costs?.customers.map((c) => c.customerId) ?? []);
     const availableCustomers = customers.filter((c) => !assignedCustomerIds.has(c.id));
 
+    const assignedPercentage = costs?.customers.reduce((sum, c) => sum + c.percentage, 0) ?? 0;
+    const remainingPercentage = 100 - assignedPercentage;
+
+    const revalidate = async () => {
+        await mutate(`/api/projects/${id}/costs`);
+        await mutate("/api/costs/per-customer");
+    };
+
     const handleAssign = async () => {
-        if (!selectedCustomerId) return;
+        if (!selectedCustomerId || !percentage) return;
+        const pct = Number(percentage);
+        if (pct <= 0 || pct > remainingPercentage) return;
         const res = await fetch(`/api/projects/${id}/customers`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ customerId: Number(selectedCustomerId) }),
+            body: JSON.stringify({ customerId: Number(selectedCustomerId), percentage: pct }),
         });
         if (res.ok) {
             setSelectedCustomerId("");
-            await mutate(`/api/projects/${id}/costs`);
-            await mutate("/api/costs/per-customer");
+            setPercentage(String(Math.min(100, remainingPercentage - pct)));
+            await revalidate();
         }
+    };
+
+    const handleUpdatePercentage = async (customerId: number, newPercentage: number) => {
+        const res = await fetch(`/api/projects/${id}/customers/${customerId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ customerId, percentage: newPercentage }),
+        });
+        if (res.ok) await revalidate();
+    };
+
+    const handleRemoveCustomer = async (customerId: number) => {
+        const res = await fetch(`/api/projects/${id}/customers/${customerId}`, {
+            method: "DELETE",
+        });
+        if (res.ok) await revalidate();
     };
 
     return (
@@ -68,12 +97,32 @@ const ProjectDetails = () => {
                         {costs && costs.customers.length > 0 && (
                             <div className="divide-y">
                                 {costs.customers.map((customer) => (
-                                    <div key={customer.customerId} className="flex justify-between items-center py-3">
-                                        <div>
-                                            <p className="font-medium">{customer.customerName}</p>
-                                            <p className="text-sm text-muted-foreground">{customer.percentage}%</p>
+                                    <div key={customer.customerId} className="flex items-center gap-2 py-3">
+                                        <div className="flex-1 min-w-0">
+                                            <p className="font-medium truncate">{customer.customerName}</p>
+                                            <p className="text-sm text-muted-foreground">{formatCurrency(customer.cost)}</p>
                                         </div>
-                                        <p className="text-lg font-semibold">{formatCurrency(customer.cost)}</p>
+                                        <Input
+                                            type="number"
+                                            min={1}
+                                            max={customer.percentage + remainingPercentage}
+                                            defaultValue={customer.percentage}
+                                            className="w-16 text-center"
+                                            onBlur={(e) => {
+                                                const val = Number(e.target.value);
+                                                if (val > 0 && val !== customer.percentage) {
+                                                    handleUpdatePercentage(customer.customerId, val);
+                                                }
+                                            }}
+                                        />
+                                        <span className="text-sm text-muted-foreground">%</span>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon-xs"
+                                            onClick={() => handleRemoveCustomer(customer.customerId)}
+                                        >
+                                            <X className="size-3" />
+                                        </Button>
                                     </div>
                                 ))}
                             </div>
@@ -81,10 +130,13 @@ const ProjectDetails = () => {
                         {costs && costs.customers.length === 0 && (
                             <p className="text-sm text-muted-foreground">Ingen kunder tilordnet ennå.</p>
                         )}
-                        {availableCustomers.length > 0 && (
-                            <div className="flex gap-2 items-center mt-4">
+                        {availableCustomers.length > 0 && remainingPercentage > 0 && (
+                            <div className="mt-4 space-y-3 pt-4 border-t">
+                                <p className="text-sm font-medium">
+                                    Tilordne kunde ({remainingPercentage}% gjenstår)
+                                </p>
                                 <Select value={selectedCustomerId} onValueChange={setSelectedCustomerId}>
-                                    <SelectTrigger className="w-full">
+                                    <SelectTrigger>
                                         <SelectValue placeholder="Velg kunde..." />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -95,9 +147,24 @@ const ProjectDetails = () => {
                                         ))}
                                     </SelectContent>
                                 </Select>
-                                <Button onClick={handleAssign} disabled={!selectedCustomerId}>
-                                    Tilordne
-                                </Button>
+                                <div className="flex gap-2 items-center">
+                                    <Input
+                                        type="number"
+                                        min={1}
+                                        max={remainingPercentage}
+                                        value={percentage}
+                                        onChange={(e) => setPercentage(e.target.value)}
+                                        placeholder="Prosent"
+                                    />
+                                    <span className="text-sm text-muted-foreground shrink-0">%</span>
+                                    <Button
+                                        onClick={handleAssign}
+                                        disabled={!selectedCustomerId || !percentage || Number(percentage) <= 0 || Number(percentage) > remainingPercentage}
+                                        className="shrink-0"
+                                    >
+                                        Tilordne
+                                    </Button>
+                                </div>
                             </div>
                         )}
                     </CardContent>

@@ -1,4 +1,5 @@
-import useSWR from "swr";
+import { useState } from "react";
+import useSWR, { mutate } from "swr";
 import { Link } from "react-router";
 import { ChevronRight } from "lucide-react";
 import {
@@ -7,6 +8,8 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import type { Project, Expense, CustomerCostSummary } from "@/types/api";
 import { fetcher, formatCurrency } from "@/lib/utils";
 
@@ -14,6 +17,22 @@ const Projects = () => {
     const { data: projects = [] } = useSWR<Project[]>("/api/projects", fetcher);
     const { data: expenses = [] } = useSWR<Expense[]>("/api/expenses", fetcher);
     const { data: customerCosts = [] } = useSWR<CustomerCostSummary[]>("/api/costs/per-customer", fetcher);
+    const [newCustomerName, setNewCustomerName] = useState("");
+
+    const handleCreateCustomer = async () => {
+        const name = newCustomerName.trim();
+        if (!name) return;
+        const res = await fetch("/api/customers", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name }),
+        });
+        if (res.ok) {
+            setNewCustomerName("");
+            await mutate("/api/customers");
+            await mutate("/api/costs/per-customer");
+        }
+    };
 
     const totalByProject = (projectId: number) =>
         expenses
@@ -73,6 +92,17 @@ const Projects = () => {
                                 </p>
                             </div>
                         ))}
+                    </div>
+                    <div className="flex gap-2 items-center mt-4">
+                        <Input
+                            value={newCustomerName}
+                            onChange={(e) => setNewCustomerName(e.target.value)}
+                            onKeyDown={(e) => e.key === "Enter" && handleCreateCustomer()}
+                            placeholder="Nytt kundenavn..."
+                        />
+                        <Button onClick={handleCreateCustomer} disabled={!newCustomerName.trim()}>
+                            Legg til
+                        </Button>
                     </div>
                 </CardContent>
             </Card>
