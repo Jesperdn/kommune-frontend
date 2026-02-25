@@ -1,5 +1,6 @@
 import useSWR from "swr";
 import { Link } from "react-router";
+import { ChevronRight } from "lucide-react";
 import {
     Card,
     CardContent,
@@ -19,6 +20,8 @@ const Projects = () => {
             .filter((e) => e.projectId === projectId)
             .reduce((sum, e) => sum + e.amount, 0);
 
+    const grandTotal = projects.reduce((sum, p) => sum + totalByProject(p.id), 0);
+
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <Card className="lg:col-span-2">
@@ -31,7 +34,7 @@ const Projects = () => {
                             <Link
                                 key={project.id}
                                 to={`/projects/${project.id}`}
-                                className="flex justify-between items-center py-3 hover:bg-muted -mx-2 px-2 rounded transition-colors"
+                                className="flex justify-between items-center py-3 hover:bg-muted -mx-2 px-2 rounded transition-colors group"
                             >
                                 <div>
                                     <p className="font-medium">{project.name}</p>
@@ -39,15 +42,24 @@ const Projects = () => {
                                         {expenses.filter((e) => e.projectId === project.id).length} utgifter
                                     </p>
                                 </div>
-                                <p className="text-lg font-semibold">
-                                    {formatCurrency(totalByProject(project.id))}
-                                </p>
+                                <div className="flex items-center gap-2">
+                                    <p className="text-lg font-semibold">
+                                        {formatCurrency(totalByProject(project.id))}
+                                    </p>
+                                    <ChevronRight className="size-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                                </div>
                             </Link>
                         ))}
                     </div>
+                    {projects.length > 0 && (
+                        <div className="flex justify-between items-center pt-4 mt-4 border-t">
+                            <p className="font-medium text-muted-foreground">Totalt</p>
+                            <p className="text-lg font-semibold">{formatCurrency(grandTotal)}</p>
+                        </div>
+                    )}
                 </CardContent>
             </Card>
-            <Card>
+            <Card className="self-start">
                 <CardHeader>
                     <CardTitle>Kunder</CardTitle>
                 </CardHeader>
