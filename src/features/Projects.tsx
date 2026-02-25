@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useSWR, { mutate } from "swr";
 import { Link } from "react-router";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Plus } from "lucide-react";
 import {
     Card,
     CardContent,
@@ -44,8 +44,11 @@ const Projects = () => {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <Card className="lg:col-span-2">
-                <CardHeader>
+                <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle>Prosjekter</CardTitle>
+                    <Button asChild size="sm">
+                        <Link to="/projects/new"><Plus className="size-4" /> Nytt prosjekt</Link>
+                    </Button>
                 </CardHeader>
                 <CardContent>
                     <div className="divide-y">
