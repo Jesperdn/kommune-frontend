@@ -17,7 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { X } from "lucide-react";
-import type { ProjectCostSummary, Expense, Customer } from "@/types/api";
+import type { ProjectCostSummary, Expense, Customer } from "@/types/expense.ts";
 import { fetcher, formatCurrency } from "@/lib/utils";
 
 const ProjectDetails = () => {
