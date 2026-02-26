@@ -96,6 +96,25 @@ const ProjectDetails = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <Card className="lg:col-span-2">
+                    <CardHeader>
+                        <CardTitle>Utgifter ({expenses.length})</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="divide-y">
+                            {expenses.map((expense) => (
+                                <div key={expense.id} className="flex justify-between items-center py-3">
+                                    <div>
+                                        <p className="font-medium">{expense.expenseType}</p>
+                                        <p className="text-sm text-muted-foreground">{expense.description}</p>
+                                    </div>
+                                    <p className="text-lg font-semibold">{formatCurrency(expense.amount)}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </CardContent>
+                </Card>
+
                 <Card>
                     <CardHeader>
                         <CardTitle>Kundefordeling</CardTitle>
@@ -174,25 +193,6 @@ const ProjectDetails = () => {
                                 </div>
                             </div>
                         )}
-                    </CardContent>
-                </Card>
-
-                <Card className="lg:col-span-2">
-                    <CardHeader>
-                        <CardTitle>Utgifter ({expenses.length})</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="divide-y">
-                            {expenses.map((expense) => (
-                                <div key={expense.id} className="flex justify-between items-center py-3">
-                                    <div>
-                                        <p className="font-medium">{expense.expenseType}</p>
-                                        <p className="text-sm text-muted-foreground">{expense.description}</p>
-                                    </div>
-                                    <p className="text-lg font-semibold">{formatCurrency(expense.amount)}</p>
-                                </div>
-                            ))}
-                        </div>
                     </CardContent>
                 </Card>
             </div>

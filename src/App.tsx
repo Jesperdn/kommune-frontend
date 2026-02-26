@@ -1,5 +1,5 @@
 import { Routes, Route, Link } from "react-router";
-import Projects from "@/features/Projects.tsx";
+import Projects from "@/features/projects/Projects.tsx";
 import ProjectDetails from "@/features/project/ProjectDetails.tsx";
 import CreateProject from "@/features/project/CreateProject.tsx";
 import EditProject from "@/features/project/EditProject.tsx";

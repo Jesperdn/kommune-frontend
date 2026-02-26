@@ -29,34 +29,35 @@ const CreateCustomer = () => {
     };
 
     return (
-        <div>
-            <Link to="/" className="text-sm text-muted-foreground hover:underline">
-                &larr; Tilbake til oversikt
-            </Link>
-
-            <Card className="mt-4 max-w-lg">
-                <CardHeader>
-                    <CardTitle>Ny kunde</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <Input
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="Kundenavn"
-                            autoFocus
-                        />
-                        <div className="flex gap-2">
-                            <Button type="submit" disabled={!name.trim()}>
-                                Opprett
-                            </Button>
-                            <Button variant="outline" asChild>
-                                <Link to="/">Avbryt</Link>
-                            </Button>
-                        </div>
-                    </form>
-                </CardContent>
-            </Card>
+        <div className="flex justify-center">
+            <div>
+                <Link to="/" className="text-sm text-muted-foreground hover:underline">
+                    &larr; Tilbake til oversikt
+                </Link>
+                <Card className="mt-4 max-w-lg min-w-[500px]">
+                    <CardHeader>
+                        <CardTitle>Ny kunde</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <Input
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                placeholder="Kundenavn"
+                                autoFocus
+                            />
+                            <div className="flex gap-2">
+                                <Button type="submit" disabled={!name.trim()}>
+                                    Opprett
+                                </Button>
+                                <Button variant="outline" asChild>
+                                    <Link to="/">Avbryt</Link>
+                                </Button>
+                            </div>
+                        </form>
+                    </CardContent>
+                </Card>
+            </div>
         </div>
     );
 };

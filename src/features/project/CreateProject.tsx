@@ -28,34 +28,36 @@ const CreateProject = () => {
     };
 
     return (
-        <div>
-            <Link to="/" className="text-sm text-muted-foreground hover:underline">
-                &larr; Tilbake til oversikt
-            </Link>
+        <div className="flex justify-center">
+            <div>
+                <Link to="/" className="text-sm text-muted-foreground hover:underline">
+                    &larr; Tilbake til oversikt
+                </Link>
 
-            <Card className="mt-4 max-w-lg">
-                <CardHeader>
-                    <CardTitle>Nytt prosjekt</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <Input
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="Prosjektnavn"
-                            autoFocus
-                        />
-                        <div className="flex gap-2">
-                            <Button type="submit" disabled={!name.trim()}>
-                                Opprett
-                            </Button>
-                            <Button variant="outline" asChild>
-                                <Link to="/">Avbryt</Link>
-                            </Button>
-                        </div>
-                    </form>
-                </CardContent>
-            </Card>
+                <Card className="mt-4 max-w-lg min-w-[500px]">
+                    <CardHeader>
+                        <CardTitle>Nytt prosjekt</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <Input
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                placeholder="Prosjektnavn"
+                                autoFocus
+                            />
+                            <div className="flex gap-2">
+                                <Button type="submit" disabled={!name.trim()}>
+                                    Opprett
+                                </Button>
+                                <Button variant="outline" asChild>
+                                    <Link to="/">Avbryt</Link>
+                                </Button>
+                            </div>
+                        </form>
+                    </CardContent>
+                </Card>
+            </div>
         </div>
     );
 };
