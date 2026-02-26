@@ -4,6 +4,7 @@ import ProjectDetails from "@/features/project/ProjectDetails.tsx";
 import CreateProject from "@/features/project/CreateProject.tsx";
 import EditProject from "@/features/project/EditProject.tsx";
 import CreateCustomer from "@/features/customer/CreateCustomer.tsx";
+import CustomerDetails from "@/features/customer/CustomerDetails.tsx";
 import EditCustomer from "@/features/customer/EditCustomer.tsx";
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
                     <Route path="/" element={<Projects />} />
                     <Route path="/projects/new" element={<CreateProject />} />
                     <Route path="/customers/new" element={<CreateCustomer />} />
+                    <Route path="/customers/:id" element={<CustomerDetails />} />
                     <Route path="/customers/:id/edit" element={<EditCustomer />} />
                     <Route path="/projects/:id" element={<ProjectDetails />} />
                     <Route path="/projects/:id/edit" element={<EditProject />} />

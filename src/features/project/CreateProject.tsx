@@ -9,6 +9,7 @@ import {
 import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { apiUrl } from "@/lib/utils.ts";
+import {BackArrow} from "@/components/BackArrow.tsx";
 
 const CreateProject = () => {
     const navigate = useNavigate();
@@ -30,9 +31,7 @@ const CreateProject = () => {
     return (
         <div className="flex justify-center">
             <div>
-                <Link to="/" className="text-sm text-muted-foreground hover:underline">
-                    &larr; Tilbake til oversikt
-                </Link>
+                <BackArrow />
 
                 <Card className="mt-4 max-w-lg min-w-[500px]">
                     <CardHeader>

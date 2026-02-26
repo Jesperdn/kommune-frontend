@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { useProject } from "@/hooks/useProjects";
 import { apiUrl } from "@/lib/utils.ts";
+import {BackArrow} from "@/components/BackArrow.tsx";
 
 const EditProject = () => {
     const { id } = useParams();
@@ -44,9 +45,7 @@ const EditProject = () => {
 
     return (
         <div>
-            <Link to={`/projects/${id}`} className="text-sm text-muted-foreground hover:underline">
-                &larr; Tilbake til prosjekt
-            </Link>
+            <BackArrow />
 
             <Card className="mt-4 max-w-lg">
                 <CardHeader>

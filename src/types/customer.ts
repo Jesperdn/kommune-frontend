@@ -9,3 +9,13 @@ export type CustomerCostSummary =  {
     customerName: string;
     totalCost: number;
 }
+
+export type CustomerProjectCostSummary = {
+    customerId: number;
+    customerName: string;
+    projectId: number;
+    projectName: string;
+    percentage: number;
+    projectTotal: number;
+    customerCost: number;
+}

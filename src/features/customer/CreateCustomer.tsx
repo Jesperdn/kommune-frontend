@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { apiUrl } from "@/lib/utils.ts";
 import * as React from "react";
+import {BackArrow} from "@/components/BackArrow.tsx";
 
 const CreateCustomer = () => {
     const navigate = useNavigate();
@@ -31,9 +32,8 @@ const CreateCustomer = () => {
     return (
         <div className="flex justify-center">
             <div>
-                <Link to="/" className="text-sm text-muted-foreground hover:underline">
-                    &larr; Tilbake til oversikt
-                </Link>
+                <BackArrow />
+
                 <Card className="mt-4 max-w-lg min-w-[500px]">
                     <CardHeader>
                         <CardTitle>Ny kunde</CardTitle>

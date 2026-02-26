@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { useCustomer } from "@/hooks/useCustomers";
 import { apiUrl } from "@/lib/utils.ts";
+import {BackArrow} from "@/components/BackArrow.tsx";
 
 const EditCustomer = () => {
     const { id } = useParams();
@@ -44,9 +45,7 @@ const EditCustomer = () => {
 
     return (
         <div>
-            <Link to="/" className="text-sm text-muted-foreground hover:underline">
-                &larr; Tilbake til oversikt
-            </Link>
+            <BackArrow />
 
             <Card className="mt-4 max-w-lg">
                 <CardHeader>

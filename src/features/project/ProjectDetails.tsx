@@ -21,6 +21,7 @@ import { formatCurrency, apiUrl } from "@/lib/utils.ts";
 import { useProjectCosts } from "@/hooks/useProjectCosts";
 import { useProjectExpenses } from "@/hooks/useExpenses";
 import { useCustomers } from "@/hooks/useCustomers";
+import {BackArrow} from "@/components/BackArrow.tsx";
 
 const ProjectDetails = () => {
     const { id } = useParams();
@@ -75,9 +76,7 @@ const ProjectDetails = () => {
 
     return (
         <div>
-            <Link to="/" className="text-sm text-muted-foreground hover:underline">
-                &larr; Tilbake til oversikt
-            </Link>
+            <BackArrow />
 
             <div className="mt-4 mb-8 flex flex-col gap-2">
                 <div className="flex justify-between items-center gap-4">

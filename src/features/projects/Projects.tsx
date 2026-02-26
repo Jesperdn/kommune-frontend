@@ -73,7 +73,7 @@ const Projects = () => {
                             {customers.map((customer) => (
                                 <Link
                                     key={customer.id}
-                                    to={`/customers/${customer.id}/edit`}
+                                    to={`/customers/${customer.id}`}
                                     className="flex justify-between items-center py-3 hover:bg-muted -mx-2 px-2 rounded transition-colors group"
                                 >
                                     <p className="font-medium">{customer.name}</p>
