@@ -5,7 +5,11 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
 }
 
-export const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const API_BASE = import.meta.env.VITE_API_URL ?? "";
+
+export const apiUrl = (path: string) => `${API_BASE}${path}`;
+
+export const fetcher = (url: string) => fetch(apiUrl(url)).then((res) => res.json());
 
 export const formatCurrency = (amount: number): string =>
     new Intl.NumberFormat("nb-NO", {

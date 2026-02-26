@@ -17,7 +17,7 @@ import {
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Pencil, X } from "lucide-react";
-import { formatCurrency } from "@/lib/utils.ts";
+import { formatCurrency, apiUrl } from "@/lib/utils.ts";
 import { useProjectCosts } from "@/hooks/useProjectCosts";
 import { useProjectExpenses } from "@/hooks/useExpenses";
 import { useCustomers } from "@/hooks/useCustomers";
@@ -45,7 +45,7 @@ const ProjectDetails = () => {
         if (!selectedCustomerId || !percentage) return;
         const pct = Number(percentage);
         if (pct <= 0 || pct > remainingPercentage) return;
-        const res = await fetch(`/api/projects/${id}/customers`, {
+        const res = await fetch(apiUrl(`/api/projects/${id}/customers`), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ customerId: Number(selectedCustomerId), percentage: pct }),
@@ -58,7 +58,7 @@ const ProjectDetails = () => {
     };
 
     const handleUpdatePercentage = async (customerId: number, newPercentage: number) => {
-        const res = await fetch(`/api/projects/${id}/customers/${customerId}`, {
+        const res = await fetch(apiUrl(`/api/projects/${id}/customers/${customerId}`), {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ customerId, percentage: newPercentage }),
@@ -67,7 +67,7 @@ const ProjectDetails = () => {
     };
 
     const handleRemoveCustomer = async (customerId: number) => {
-        const res = await fetch(`/api/projects/${id}/customers/${customerId}`, {
+        const res = await fetch(apiUrl(`/api/projects/${id}/customers/${customerId}`), {
             method: "DELETE",
         });
         if (res.ok) await revalidate();

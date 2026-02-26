@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
+import { apiUrl } from "@/lib/utils.ts";
 import * as React from "react";
 
 const CreateCustomer = () => {
@@ -17,7 +18,7 @@ const CreateCustomer = () => {
     const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault();
         if (!name.trim()) return;
-        const res = await fetch("/api/customers", {
+        const res = await fetch(apiUrl("/api/customers"), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name: name.trim() }),

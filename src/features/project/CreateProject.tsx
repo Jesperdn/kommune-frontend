@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
+import { apiUrl } from "@/lib/utils.ts";
 
 const CreateProject = () => {
     const navigate = useNavigate();
@@ -16,7 +17,7 @@ const CreateProject = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!name.trim()) return;
-        const res = await fetch("/api/projects", {
+        const res = await fetch(apiUrl("/api/projects"), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name: name.trim() }),

@@ -9,6 +9,7 @@ import {
 import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { useProject } from "@/hooks/useProjects";
+import { apiUrl } from "@/lib/utils.ts";
 
 const EditProject = () => {
     const { id } = useParams();
@@ -23,7 +24,7 @@ const EditProject = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!name.trim()) return;
-        const res = await fetch(`/api/projects/${id}`, {
+        const res = await fetch(apiUrl(`/api/projects/${id}`), {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name: name.trim() }),
@@ -35,7 +36,7 @@ const EditProject = () => {
 
     const handleDelete = async () => {
         if (!confirm("Er du sikker på at du vil slette dette prosjektet?")) return;
-        const res = await fetch(`/api/projects/${id}`, { method: "DELETE" });
+        const res = await fetch(apiUrl(`/api/projects/${id}`), { method: "DELETE" });
         if (res.ok) {
             navigate("/");
         }

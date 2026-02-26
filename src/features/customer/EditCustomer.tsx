@@ -9,6 +9,7 @@ import {
 import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { useCustomer } from "@/hooks/useCustomers";
+import { apiUrl } from "@/lib/utils.ts";
 
 const EditCustomer = () => {
     const { id } = useParams();
@@ -22,7 +23,7 @@ const EditCustomer = () => {
 
     const handleDelete = async () => {
         if (!confirm("Er du sikker på at du vil slette denne kunden?")) return;
-        const res = await fetch(`/api/customers/${id}`, { method: "DELETE" });
+        const res = await fetch(apiUrl(`/api/customers/${id}`), { method: "DELETE" });
         if (res.ok) {
             navigate("/");
         }
@@ -31,7 +32,7 @@ const EditCustomer = () => {
     const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault();
         if (!name.trim()) return;
-        const res = await fetch(`/api/customers/${id}`, {
+        const res = await fetch(apiUrl(`/api/customers/${id}`), {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name: name.trim() }),
