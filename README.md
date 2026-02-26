@@ -1,1 +1,1 @@
-Slett vite-generator readme
+
